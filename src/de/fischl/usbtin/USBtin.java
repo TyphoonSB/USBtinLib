@@ -55,6 +55,9 @@ public class USBtin implements SerialPortEventListener {
     
     /** USBtin hardware version */
     protected String hardwareVersion;
+    
+    /** USBtin Status */
+    protected String readStatus;
 
     /** USBtin serial number */
     protected String serialNumber;
@@ -80,6 +83,23 @@ public class USBtin implements SerialPortEventListener {
      */
     public String getFirmwareVersion() {
         return firmwareVersion;
+    }
+    
+    /**
+     * Get Status string.
+     * 
+     * 
+     * @return actual Status
+     */
+    public String getStatus() {
+        try {
+            this.readStatus = this.transmit("F").substring(1);
+        } catch (SerialPortException ex) {
+            Logger.getLogger(USBtin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SerialPortTimeoutException ex) {
+            Logger.getLogger(USBtin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return readStatus;
     }
 
     /**
